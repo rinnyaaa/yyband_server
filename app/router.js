@@ -54,6 +54,7 @@ module.exports = app => {
     //record
     router.post('/api/record', app.jwt, controller.accounting.record.create)
     router.get('/api/record/:count', app.jwt, controller.accounting.record.showRecent)
+    router.get('/api/recordByMonth', app.jwt, controller.accounting.record.recordsByMonth)
 
     //type
     router.resources('type', '/api/type', controller.accounting.type);

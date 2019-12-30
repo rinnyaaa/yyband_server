@@ -80,7 +80,6 @@ class RecordController extends Controller {
         const { ctx, service } = this
         // 组装参数
         const accountId = ctx.state.user.data.account
-        console.log(accountId)
         const { count } = ctx.params
             // 调用 Service 进行业务处理
         const res = await service.accounting.record.showRecent(accountId, count)
@@ -111,7 +110,15 @@ class RecordController extends Controller {
     //   // 设置响应内容和响应状态码
     //   ctx.helper.success({ctx})
     // }
-
+    async recordsByMonth() {
+        const { ctx, service } = this
+        // 组装参数
+        const accountId = ctx.state.user.data.account
+            // 调用 Service 进行业务处理
+        const res = await service.accounting.record.recordsByMonth(accountId)
+            // 设置响应内容和响应状态码
+        ctx.helper.success({ ctx, res })
+    }
 }
 
 
