@@ -8,7 +8,7 @@ class RecordController extends Controller {
             consumption: { type: 'number', required: true, allowEmpty: false, min: 0 },
             isOut: { type: 'boolean', required: true, allowEmpty: false },
             typeId: { type: 'string', required: true, allowEmpty: false },
-            remarks: { type: 'string', required: false, allowEmpty: false },
+            remarks: { type: 'string', required: false, allowEmpty: true },
         }
 
     }
