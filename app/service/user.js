@@ -5,24 +5,7 @@ class UserService extends Service {
   // create======================================================================================================>
   async create(payload) {
     const { ctx, service } = this
-    /////////////////////
-    //todo 权限分配
-    // if (!payload.role) {
-    //   if (!payload.type||payload.type === 'user') {
-    //     payload.role = '5def608fbc42de9b2eb948d0';
-    //   } else if (payload.type === 'admin') {
-    //     payload.role = '5def60a1b42b099b4067f937';
-    //   }
-    // }
-    // if (!payload.type) {
-    //   ctx.throw(404, '缺少type参数')
-    // }
-    // //////////////
-    // const role = await service.role.findByName(payload.type)
-    // if (!role) {
-    //   ctx.throw(404, 'role is not found')
-    // }
-
+  
     const account = await service.accounting.account.create({
       accountName: '我的账本',
         budget: 0,

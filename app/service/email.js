@@ -2,8 +2,8 @@
 
 const Service = require('egg').Service;
 const nodemailer = require('nodemailer');
-const user_email = '854250234@qq.com';
-const auth_code = 'ctnwqznelcodbbej';
+const user_email = 'yyyband@qq.com';
+const auth_code = 'tnnmdurzzdmjbagh';
 
 const transporter = nodemailer.createTransport({
     service: 'qq',

@@ -59,4 +59,6 @@ module.exports = app => {
     //type
     router.resources('type', '/api/type', controller.accounting.type);
 
+    //wx
+    router.post('/api/wx', controller.wx.wxLogin)
 }
