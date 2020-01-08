@@ -123,6 +123,7 @@ class RecordController extends Controller {
         console.log('====================================');
         console.log(start, end);
         console.log('====================================');
+        // console.log('')
         if (month) filters['time'] = { $gte: new Date(start), $lte: new Date(end) }
         if(typeId)  filters['typeId'] = typeId
         const accountId = ctx.state.user.data.account
