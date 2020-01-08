@@ -1,4 +1,5 @@
 const Controller = require('egg').Controller
+const moment = require('moment')
 
 class RecordController extends Controller {
     constructor(ctx) {
@@ -19,15 +20,15 @@ class RecordController extends Controller {
         const { ctx, service } = this
         // 校验参数
         ctx.validate(this.RecordCreateTransfer)
-            // 组装参数
+        // 组装参数
         const _account = ctx.state.user.data.account
         const _user = ctx.state.user.data._id
         const payload = ctx.request.body || {}
-            // 调用 Service 进行业务处理
+        // 调用 Service 进行业务处理
         const res = await service.accounting.record.create({ _account, _user, ...payload })
-            //账本增加这条记录
+        //账本增加这条记录
         await service.accounting.account.addRecord(_account, res)
-            // 设置响应内容和响应状态码
+        // 设置响应内容和响应状态码
         ctx.helper.success({ ctx, res })
     }
 
@@ -81,9 +82,9 @@ class RecordController extends Controller {
         // 组装参数
         const accountId = ctx.state.user.data.account
         const { count } = ctx.params
-            // 调用 Service 进行业务处理
+        // 调用 Service 进行业务处理
         const res = await service.accounting.record.showRecent(accountId, count)
-            // 设置响应内容和响应状态码
+        // 设置响应内容和响应状态码
         ctx.helper.success({ ctx, res })
     }
 
@@ -113,10 +114,21 @@ class RecordController extends Controller {
     async recordsByMonth() {
         const { ctx, service } = this
         // 组装参数
+        const payload = ctx.request.body || {}
+        const { month, typeId } = ctx.query
+        let filters = {}
+        let start = month + '-1'
+        //一个月1号0点到最后一天的24点
+        let end = moment(start).subtract('month', -1).add('days', -1).format('YYYY-MM-DD 24:00:00')
+        console.log('====================================');
+        console.log(start, end);
+        console.log('====================================');
+        if (month) filters['time'] = { $gte: new Date(start), $lte: new Date(end) }
+        if(typeId)  filters['typeId'] = typeId
         const accountId = ctx.state.user.data.account
-            // 调用 Service 进行业务处理
-        const res = await service.accounting.record.recordsByMonth(accountId)
-            // 设置响应内容和响应状态码
+        // 调用 Service 进行业务处理
+        const res = await service.accounting.record.recordsByMonth(accountId, filters)
+        // 设置响应内容和响应状态码
         ctx.helper.success({ ctx, res })
     }
 }

@@ -35,9 +35,10 @@ class RecordService extends Service {
 
     async recordsByMonth(accountId, filters = {}) {
         const { ctx, service } = this
-        // filters = { time: { $gte: new Date('2019-12-27') } }
-        // typeId = '5dfb35f51e6cb280ca9236ec'
-        // const account = await ctx.model.Accounting.Account.findById(accountId).populate({ path: 'records', match: { time: { $gte: new Date('2019-12-28') } }, options: { sort: { 'time': -1 } }, populate: { path: 'typeId' } })
+        console.log('====================================');
+        console.log('查询账单明细')
+        console.log(filters);
+        console.log('====================================');
         const account = await ctx.model.Accounting.Account.findById(accountId).populate({ path: 'records', match: filters, options: { sort: { 'time': -1 } }, populate: { path: 'typeId' } })
         if (!account.records) return []
         const records = account.records
@@ -81,7 +82,7 @@ class RecordService extends Service {
         //计算日总和
         newArr.map((month) => {
             month.MONTH.map((day) => {
-                let totalIn=0, totalOut = 0
+                let totalIn = 0, totalOut = 0
                 day.DAY.map((record) => {
                     const { isOut, consumption } = record.recordItem
                     if (isOut)
@@ -95,12 +96,12 @@ class RecordService extends Service {
 
         //计算月总和
         newArr.map((month) => {
-            let totalIn=0, totalOut = 0
-            month.MONTH.map((day) => {                
+            let totalIn = 0, totalOut = 0
+            month.MONTH.map((day) => {
                 const ttIn = day.totalIn
                 const ttOut = day.totalOut
-                totalIn = totalIn+ttIn
-                totalOut = totalOut+ttOut
+                totalIn = totalIn + ttIn
+                totalOut = totalOut + ttOut
             })
             month.totalMonthIn = totalIn
             month.totalMonthOut = totalOut
